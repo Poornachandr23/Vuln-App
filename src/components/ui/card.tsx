@@ -29,11 +29,13 @@ const CardHeader = React.forwardRef<
 ))
 CardHeader.displayName = "CardHeader"
 
+// Changed CardTitle and CardDescription back to h3 and p for semantic correctness,
+// but forward ref and allow additional div props for flexibility.
 const CardTitle = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  HTMLHeadingElement, // Changed back to HTMLHeadingElement
+  React.HTMLAttributes<HTMLHeadingElement> // Changed back to HTMLHeadingElement
 >(({ className, ...props }, ref) => (
-  <div
+  <h3 // Changed back to h3
     ref={ref}
     className={cn(
       "text-2xl font-semibold leading-none tracking-tight",
@@ -45,16 +47,17 @@ const CardTitle = React.forwardRef<
 CardTitle.displayName = "CardTitle"
 
 const CardDescription = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  HTMLParagraphElement, // Changed back to HTMLParagraphElement
+  React.HTMLAttributes<HTMLParagraphElement> // Changed back to HTMLParagraphElement
 >(({ className, ...props }, ref) => (
-  <div
+  <p // Changed back to p
     ref={ref}
     className={cn("text-sm text-muted-foreground", className)}
     {...props}
   />
 ))
 CardDescription.displayName = "CardDescription"
+
 
 const CardContent = React.forwardRef<
   HTMLDivElement,
