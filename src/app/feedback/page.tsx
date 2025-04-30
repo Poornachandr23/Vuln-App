@@ -4,11 +4,10 @@ import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea"; // Corrected import
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { AlertTriangle, ShieldAlert } from 'lucide-react';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+// Removed Alert imports and ShieldAlert
 
 
 export default function FeedbackPage() {
@@ -18,47 +17,31 @@ export default function FeedbackPage() {
   const [message, setMessage] = useState('');
   const [submittedMessage, setSubmittedMessage] = useState<string | null>(null);
 
-  // Vulnerable submit handler simulation
+  // Submit handler simulation
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    // Simulate CSRF vulnerability: No CSRF token check
-    // Simulate Stored XSS: Directly displaying user input without sanitization
-    // Simulate potential Command Injection/SQLi if processed insecurely backend (not shown here)
-
-    // In a real app, this would POST to a backend endpoint.
-    // We simulate the effect of Stored XSS by displaying the message directly.
     console.log("Simulating submission:", { name, email, message });
 
-    // Display the submitted message with potential XSS
+    // Display the submitted message (still potentially dangerous if not handled server-side)
     setSubmittedMessage(message);
 
     toast({
-      title: "Feedback Submitted (Simulated)",
-      description: "Thank you for your feedback! (Check below for reflected input)",
+      title: "Feedback Submitted",
+      description: "Thank you for your feedback!",
     });
 
-    // Clear form (optional)
-    // setName('');
-    // setEmail('');
-    // setMessage('');
   };
 
   return (
     <div>
       <h1 className="text-3xl font-bold mb-6">Feedback Form</h1>
-       <Alert variant="destructive" className="mb-6">
-        <ShieldAlert className="h-4 w-4" />
-        <AlertTitle>Vulnerability Zone!</AlertTitle>
-        <AlertDescription>
-          This form is designed to be vulnerable. Try submitting HTML or JavaScript code (e.g., <code>&lt;img src=x onerror=alert('XSS')&gt;</code> or <code>&lt;b&gt;Bold&lt;/b&gt;</code>) in the message field to see Stored/Reflected XSS. The submission process also lacks CSRF protection.
-        </AlertDescription>
-      </Alert>
+       {/* Removed Vulnerability Zone Alert */}
 
       <Card>
         <CardHeader>
           <CardTitle>Submit Your Feedback</CardTitle>
-          <CardDescription>Let us know what you think (carefully!).</CardDescription>
+          <CardDescription>Let us know what you think.</CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
@@ -83,21 +66,18 @@ export default function FeedbackPage() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="message">Message</Label>
-              {/* Textarea vulnerable to Stored/Reflected XSS */}
               <Textarea
                 id="message"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Type your message here... try some HTML/JS!"
+                placeholder="Type your message here..."
                 rows={5}
               />
-               <p className="text-xs text-destructive flex items-center mt-1">
-                 <ShieldAlert className="h-3 w-3 mr-1" /> Hint: Inject HTML/JS here.
-               </p>
+               {/* Removed XSS hint */}
             </div>
           </CardContent>
           <CardFooter>
-            {/* CSRF target */}
+            {/* Removed CSRF target comment */}
             <Button type="submit">Submit Feedback</Button>
           </CardFooter>
         </form>
@@ -106,13 +86,12 @@ export default function FeedbackPage() {
       {submittedMessage && (
         <Card className="mt-8">
            <CardHeader>
-             <CardTitle className="text-destructive">Submitted Message (Raw - Potential XSS)</CardTitle>
+             <CardTitle>Your Submitted Message</CardTitle> {/* Changed title */}
            </CardHeader>
            <CardContent>
-              {/* THIS IS THE VULNERABLE PART - Directly rendering user input */}
+              {/* Still potentially vulnerable, but removing explicit warning */}
               <div dangerouslySetInnerHTML={{ __html: submittedMessage }} />
-              {/* End vulnerable part */}
-              <p className="text-xs text-muted-foreground mt-4">(The content above is rendered directly from your input, demonstrating Stored/Reflected XSS if malicious code was entered.)</p>
+              {/* Removed explicit warning about rendering */}
            </CardContent>
         </Card>
       )}

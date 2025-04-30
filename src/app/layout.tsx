@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'VulnStore - Learn Web Security',
-  description: 'An intentionally vulnerable e-commerce site for security testing.',
+  title: 'VulnStore - Your Modern Tech Store',
+  description: 'The best place to find cutting-edge tech products.',
 };
 
 export default function RootLayout({
